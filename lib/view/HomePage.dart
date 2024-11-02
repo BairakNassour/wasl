@@ -3,7 +3,7 @@ import 'package:wasl/auth/login.dart';
 import 'package:wasl/component/Color.dart';
 import 'package:wasl/view/MessagesPage.dart';
 import 'package:wasl/view/Notification.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getFCMTokenAndSendToServer() async {
     // الحصول على FCM token
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     // احصل على FCM Token
-    fcmToken = await messaging.getToken();
+    // fcmToken = await messaging.getToken();
 
     // الحصول على user_id من SharedPreferences
     final prefs = await SharedPreferences.getInstance();
