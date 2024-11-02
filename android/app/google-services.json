@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "494739822406",
+    "project_id": "wasl-b40ae",
+    "storage_bucket": "wasl-b40ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494739822406:android:6b7e8c4f90daa79957f747",
+        "android_client_info": {
+          "package_name": "com.example.wasl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxhYgeMi42UrvakwhQk1XZgUcLlGRrsUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
