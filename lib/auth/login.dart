@@ -3,6 +3,7 @@ import 'package:wasl/auth/forgetpassword.dart';
 import 'package:wasl/component/Color.dart';
 import 'package:wasl/controller/authentication_controller.dart';
 import 'package:wasl/view/HomePage.dart';
+import 'package:url_launcher/url_launcher.dart'; // Add this import for URL launching
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,8 +17,19 @@ TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>(); // مفتاح نموذج
-  bool isLoading = false; // متغير للتحكم في حالة التحميل
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+
+  // Function to launch URL
+  Future<void> _launchPrivacyPolicy() async {
+    const url = 'https://wasel.scit.co/public/privay_policy.htm';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +207,21 @@ class _LoginPageState extends State<LoginPage> {
                                 'نسيت كلمة المرور؟',
                                 style: TextStyle(
                                   color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          // Privacy Policy Link
+                          Align(
+                            alignment: Alignment.center,
+                            child: GestureDetector(
+                              onTap: _launchPrivacyPolicy,
+                              child: const Text(
+                                'سياسة الخصوصية',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
