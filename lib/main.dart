@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:wasl/auth/login.dart';
 import 'package:wasl/auth/splach.dart';
-// import 'package:wasl/firebase_options.dart';
+import 'package:wasl/firebase_options.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform, // إعدادات Firebase حسب النظام الأساسي
   // );
