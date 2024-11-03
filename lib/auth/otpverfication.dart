@@ -78,6 +78,20 @@ class _OTPVerficationPageState extends State<OTPVerficationPage> {
                 ),
               ),
             ),
+            Positioned(
+                    top: 40,
+                    right: 16,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
             Center(
               child: SingleChildScrollView(
                 child: Container(

@@ -56,7 +56,7 @@ class _MessagesPageState extends State<MessagesPage> {
                       Navigator.of(context).pop();
                     },
                     child: Icon(
-                      Icons.arrow_back,
+                      Icons.arrow_forward,
                       color: Colors.white,
                       size: 30,
                     ),
@@ -121,7 +121,7 @@ class _MessagesPageState extends State<MessagesPage> {
                               ),
                               subtitle: Text(message.title ?? 'رسالة بدون محتوى'),
                               trailing: Container(
-                                width: 65,
+                                width: 90,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
