@@ -9,4 +9,10 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # إضافة مكتبة firebase_core (أساسية لربط Firebase بالتطبيق)
+  pod 'Firebase/Core', '~> 3.5.0'  # يمكنك تحديد النسخة المطلوبة هنا
+  
+  # إضافة مكتبة firebase_messaging (لإرسال واستقبال الإشعارات)
+  pod 'Firebase/Messaging', '~> 14.8.2'  # يمكنك تحديد النسخة المطلوبة هنا
+  
 end
