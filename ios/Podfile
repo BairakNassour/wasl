@@ -1,0 +1,27 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+
+# Ignore all warnings from all pods
+inhibit_all_warnings!
+
+# Your main target
+target 'Runner' do
+  # Use frameworks instead of static libraries (for compatibility with Firebase and other dynamic frameworks)
+  use_frameworks!
+  
+  # Flutter installation files
+  # من أجل تحديد المسار الخاص بالـ Flutter Application وملفاته
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # Uncomment the next line if you're using Swift or Objective-C and need compatibility for transitive dependencies
+  # use_modular_headers!
+end
+
+# This will install Flutter dependencies
+# عليك عدم تعديل هذا القسم إلا إذا كان هناك مكتبات معينة تحتاج تعديل خاص
+def flutter_install_all_ios_pods(flutter_application_path)
+  # Define your dependencies for Flutter here
+  use_frameworks!
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+end
