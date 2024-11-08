@@ -9,7 +9,3 @@ target 'Runner' do
   use_modular_headers!
 
 end
-
-# إعداد مسار Flutter SDK في مشروعك
-# هذا التحميل يتيح لك استيراد مكتبات Flutter
-load File.join(File.dirname(__FILE__), '../.symlinks/flutter/ios/Flutter/podhelper.rb')
