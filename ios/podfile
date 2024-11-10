@@ -1,25 +1,28 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '13.0'
+# This is the Podfile for a Flutter application.
+platform :ios, '11.0'
 
-# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-
-# Flutter-specific configuration
-# `FLUTTER_ROOT` should be exported as an environment variable when building
+# Specify the path to your Flutter SDK here
 flutter_application_path = '../'
+
+# Load Flutter's configuration for iOS dependencies
 load File.join(flutter_application_path, '.flutter-plugins-dependencies')
 
+# The target is typically the name of your app, e.g., Runner for a default Flutter project
 target 'Runner' do
+  # Enable the use of frameworks for iOS
   use_frameworks!
   use_modular_headers!
 
-  # Add the Flutter pod config
-  flutter_install_all_ios_pods(flutter_application_path)
+  # Install Flutter-specific iOS Pods
+  flutter_pods(flutter_application_path)
 
-  # Post-install processing
+  # Post-installation step to configure iOS build settings
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       flutter_additional_ios_build_settings(target)
     end
   end
 end
+
+# Ensure that the Podfile uses the latest Flutter settings
+# This includes any Flutter-specific hooks for adding iOS build settings
