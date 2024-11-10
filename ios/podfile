@@ -1,0 +1,25 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+# Flutter-specific configuration
+# `FLUTTER_ROOT` should be exported as an environment variable when building
+flutter_application_path = '../'
+load File.join(flutter_application_path, '.flutter-plugins-dependencies')
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  # Add the Flutter pod config
+  flutter_install_all_ios_pods(flutter_application_path)
+
+  # Post-install processing
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      flutter_additional_ios_build_settings(target)
+    end
+  end
+end
