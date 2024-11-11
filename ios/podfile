@@ -1,9 +1,0 @@
-# This is the Podfile for a Flutter application.
-platform :ios, '13.0'
-
-# This is required for Flutter integration.
-
-target 'Runner' do
-  # Install Flutter dependencies
-  install_all_flutter_pods(flutter_application_path)
-end
