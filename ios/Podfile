@@ -21,7 +21,7 @@ target 'Runner' do
   pod 'url_launcher_ios', :path => File.join(flutter_application_path, '.symlinks/plugins/url_launcher_ios/ios')
   
   # Add new plugins here
-  pod 'AwesomeDialog', :path => File.join(flutter_application_path, '.symlinks/plugins/awesome_dialog/ios')
+#   pod 'AwesomeDialog', :path => File.join(flutter_application_path, '.symlinks/plugins/awesome_dialog/ios')
   pod 'OpenFile', :path => File.join(flutter_application_path, '.symlinks/plugins/open_file/ios')
   pod 'FlutterOtpTextField', :path => File.join(flutter_application_path, '.symlinks/plugins/flutter_otp_text_field/ios')
 
