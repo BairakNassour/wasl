@@ -1,22 +1,5 @@
 # This is the Podfile for a Flutter application.
 platform :ios, '13.0'
 
-# Specify the path to your Flutter SDK here
-# flutter_application_path = '../'
 
-# Enable the use of frameworks for iOS
-use_frameworks!
-use_modular_headers!
-
-target 'Runner' do
-  # Flutter-specific iOS Pod installation (automatic configuration)
-#   pod 'Flutter', :path => flutter_application_path + '/packages/flutter'
-
-  # Post-installation step to configure iOS build settings
-  post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      # Apply necessary build settings for iOS
-      flutter_additional_ios_build_settings(target)
-    end
-  end
 end
