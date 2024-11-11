@@ -1,0 +1,32 @@
+# Podfile
+
+# Define the iOS platform version
+platform :ios, '13.0'
+
+# Define the Flutter application path
+flutter_application_path = '../'
+
+# Load Flutter dependencies
+load File.join(flutter_application_path, '.flutter-plugins-dependencies')
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  # Manually install each plugin instead of using `install_all_flutter_plugins`
+  # Example of typical plugins; modify based on your specific project needs
+  pod 'FirebaseCore', :path => File.join(flutter_application_path, '.symlinks/plugins/firebase_core/ios')
+  pod 'FirebaseMessaging', :path => File.join(flutter_application_path, '.symlinks/plugins/firebase_messaging/ios')
+  pod 'flutter_local_notifications', :path => File.join(flutter_application_path, '.symlinks/plugins/flutter_local_notifications/ios')
+  pod 'shared_preferences_foundation', :path => File.join(flutter_application_path, '.symlinks/plugins/shared_preferences_foundation/darwin')
+  pod 'path_provider_foundation', :path => File.join(flutter_application_path, '.symlinks/plugins/path_provider_foundation/darwin')
+  pod 'url_launcher_ios', :path => File.join(flutter_application_path, '.symlinks/plugins/url_launcher_ios/ios')
+  # Add other plugins as needed
+end
+
+# Post-install configurations
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end
