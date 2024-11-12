@@ -1,1 +1,11 @@
 platform :ios, '13.0'
+
+target 'YourAppTarget' do
+  use_frameworks!
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  
+  # يمكنك إضافة المزيد من التبعيات حسب الحاجة
+  
+end
