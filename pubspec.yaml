@@ -43,8 +43,8 @@ dependencies:
   open_file: ^3.5.4
   
   
-  firebase_messaging: 
-  firebase_core: ^2.22.0
+  firebase_messaging: ^14.6.7
+  firebase_core: ^2.15.1
   flutter_otp_text_field: ^1.2.0
   flutter_launcher_icons: ^0.14.1
   intl: ^0.17.0
