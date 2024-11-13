@@ -40,10 +40,10 @@ dependencies:
   path_provider: ^2.1.4
   dio: ^5.7.0
   flutter_local_notifications: ^17.2.4
-  open_file: ^3.5.9
+  open_file: ^3.5.4
   
   
-  firebase_messaging: ^14.7.8
+  firebase_messaging: ^14.7.15
   firebase_core: ^2.22.0
   flutter_otp_text_field: ^1.2.0
   flutter_launcher_icons: ^0.14.1
