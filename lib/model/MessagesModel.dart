@@ -31,16 +31,16 @@ class NotesModel {
     return NotesModel(
       id: json['id'],
       title: json['title'],
-      descriptions: json['descriptions'],
+      descriptions: json['descriptions']!=null?json['descriptions']:"",
       replay: json['replay'],
       senderId: json['sender_id'],
       reciverId: json['reciver_id'],
       status: json['status'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      attach: json['attach'] != null ? AttachModel.fromJson(json['attach']) : null,
-      sender: UserModel.fromJson(json['sender']),
-      reciver: UserModel.fromJson(json['reciver']),
+      attach: json['attach'] != null ? AttachModel.fromJson(json['attach']) : AttachModel(id: 0, name: "", path: "", senderId: 0, messageId: 0, createdAt: DateTime(1), updatedAt: DateTime(1)),
+      sender:json['sender']!=null? UserModel.fromJson(json['sender']):UserModel(id: 0, firstname: "", lastname: "", username: "", email: "", phone: "", type:0, status: "", createdAt: DateTime(1), updatedAt: DateTime(1)),
+      reciver:json['reciver']!=null? UserModel.fromJson(json['reciver']):UserModel(id: 0, firstname: "", lastname: "", username: "", email: "", phone: "", type:0, status: "", createdAt: DateTime(1), updatedAt: DateTime(1)),
     );
   }
 }

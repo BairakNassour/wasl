@@ -19,7 +19,7 @@ class MessageController {
     }
 
     // إرسال الطلب لجلب الرسائل مع التوكن كـ user_id في body
-    try {
+  
       http.Response response = await http.post(
         Uri.parse(myUrl),
         body: {
@@ -27,18 +27,23 @@ class MessageController {
         },
       );
 
-      print(response.body); // للطباعة فقط
+      print(response.body);
+      print(response.statusCode); // للطباعة فقط
 
       if (response.statusCode == 200) {
-        List body = jsonDecode(response.body)['data'];
-        return body.map((dynamic item) => NotesModel.fromJson(item)).toList().reversed.toList();
+         List body = jsonDecode(response.body)['data'];
+        List<NotesModel> orders = body
+            .map(
+              (dynamic item) => NotesModel.fromJson(item),
+            )
+            .toList();
+       
+        print(body);
+        return orders.reversed.toList();
       } else {
         print("Failed to load messages: ${response.statusCode}");
         return null;
       }
-    } catch (error) {
-      print("Error fetching messages: $error");
-      return null;
-    }
+   
   }
 }

@@ -31,7 +31,7 @@ class NotificationController {
 
       if (response.statusCode == 200) {
         List body = jsonDecode(response.body)['data'];
-        return body.map((dynamic item) => NotificationModel.fromJson(item)).toList();
+        return body.map((dynamic item) => NotificationModel.fromJson(item)).toList().reversed.toList();
       } else {
         print("Failed to load notifications: ${response.statusCode}");
         return null;

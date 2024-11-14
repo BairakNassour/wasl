@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wasl/auth/forgetpassword.dart';
 import 'package:wasl/component/Color.dart';
 import 'package:wasl/controller/authentication_controller.dart';
@@ -116,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           ),
+                          
                           const SizedBox(height: 5),
                           const Align(
                             alignment: Alignment.centerRight,
@@ -142,6 +144,21 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           ),
+                          Row(
+                            children: [
+                               Checkbox(
+                                value: rememberMe,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    rememberMe = value ?? false;
+                                  });
+                                },
+                              ),
+                              Text("تذكرني"),
+                            
+                          
+                            ],
+                          ),
                           const SizedBox(height: 30),
                           isLoading? const CircularProgressIndicator(
                                       color: Colors.blue,
@@ -155,6 +172,9 @@ class _LoginPageState extends State<LoginPage> {
                                   ? null
                                   : () async {
                                       if (_formKey.currentState!.validate()) {
+                                        if (rememberMe) {
+                                          addlogedinstatis();
+                                        }
                                         setState(() {
                                           isLoading = true;
                                         });
@@ -239,3 +259,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+addlogedinstatis() async {
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+
+}
+bool rememberMe = false; // حالة "تذكرني"

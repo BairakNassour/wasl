@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'package:wasl/auth/login.dart';
+import 'package:wasl/view/HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -9,18 +11,38 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool isLoggedIn = false;
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
+    checkLoginStatus();
     // تأخير لمدة خمس ثوانٍ قبل الانتقال إلى صفحة تسجيل الدخول
     Timer(Duration(seconds: 5), () {
-      Navigator.pushReplacement(
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+      } else {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
       );
+      }
+      
     });
   }
+ Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // قراءة حالة تسجيل الدخول من SharedPreferences
+    bool? loggedIn = prefs.getBool('isLoggedIn') ?? false;
 
+    setState(() {
+      isLoggedIn = loggedIn;
+      isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

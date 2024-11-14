@@ -14,6 +14,21 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+void requestPermission() async {
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print("User granted permission");
+  } else {
+    print("User declined or has not accepted permission");
+  }
+}
 
 class _HomePageState extends State<HomePage> {
   String? userId;
@@ -21,6 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    requestPermission();
     super.initState();
     // الحصول على FCM Token وإرساله
     _getFCMTokenAndSendToServer();
@@ -200,6 +216,7 @@ class _HomePageState extends State<HomePage> {
                           width: 170,
                           child: OutlinedButton(
                             onPressed: () {
+                              logout();
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(builder: (context) => LoginPage()),
                                 (Route<dynamic> route) => false,
@@ -237,4 +254,14 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  Future<void> logout() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove('isLoggedIn');
+  // أعد توجيه المستخدم إلى صفحة تسجيل الدخول
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => LoginPage()),
+  );
+}
+
 }

@@ -13,7 +13,8 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
-  late Future<List<NotesModel>?> _futureMessages;
+  bool isloading=false;
+  late List<NotesModel?> _futureMessages;
   final MessageController _messageController = MessageController();
 
   @override
@@ -24,8 +25,13 @@ class _MessagesPageState extends State<MessagesPage> {
 
   // تعديل هنا ليكون النوع void
   void _loadMessages() {
-    setState(() {
-      _futureMessages = _messageController.fetchMessages();
+   
+      _messageController.fetchMessages().then((onValue){
+        print("onValue   $onValue");
+        _futureMessages = onValue!;
+         setState(() {
+         isloading=true;
+      });
     });
   }
 
@@ -35,7 +41,9 @@ class _MessagesPageState extends State<MessagesPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
+        body: 
+        
+        Column(
           children: [
             // الجزء العلوي مع الخلفية
             Stack(
@@ -79,6 +87,7 @@ class _MessagesPageState extends State<MessagesPage> {
             ),
         
             // قائمة الرسائل
+            isloading?
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -86,25 +95,15 @@ class _MessagesPageState extends State<MessagesPage> {
                   onRefresh: () async {
                     _loadMessages();
                   },
-                  child: FutureBuilder<List<NotesModel>?>(
-                    future: _futureMessages,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('حدث خطأ أثناء جلب البيانات'));
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return Center(child: Text('لا توجد رسائل متاحة'));
-                      }
+               
+                   
         
-                      List<NotesModel> messages = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: messages.length,
+                      child: ListView.builder(
+                        itemCount: _futureMessages.length,
                         itemBuilder: (context, index) {
-                          NotesModel message = messages[index];
                           return Container(
                             decoration: BoxDecoration(
-                              color:message.status.toString()=="1"? Colors.transparent:Colors.grey[300],
+                              color:_futureMessages[index]?.status.toString()=="1"? Colors.transparent:Colors.grey[300],
                               border: Border.all(
                                 color: Colors.grey,
                                 width: 1,
@@ -115,18 +114,18 @@ class _MessagesPageState extends State<MessagesPage> {
                             child: ListTile(
                               leading: Image.asset("assets/messageicon.png"),
                               title: Text(
-                                message.sender != null
-                                    ? (message.sender!.firstname ?? '') + ' ' + (message.sender!.lastname ?? '')
+                                _futureMessages[index]?.sender != null
+                                    ? (_futureMessages[index]?.sender!.firstname.toString() ?? '') + ' ' + (_futureMessages[index]?.sender!.lastname.toString() ?? '')
                                     : 'غير معروف',
                               ),
-                              subtitle: Text(message.title ?? 'رسالة بدون محتوى'),
+                              subtitle: Text(_futureMessages[index]?.title.toString() ?? 'رسالة بدون محتوى'),
                               trailing: Container(
                                 width: 90,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                        DateFormat('yyyy-MM-dd \n HH:mm').format(DateTime.parse(message.createdAt.toString(),)),
+                                        DateFormat('yyyy-MM-dd \n HH:mm').format(DateTime.parse(_futureMessages[index]!.createdAt.toString(),)),
                                       ),SizedBox(width: 5),
                                     Icon(Icons.arrow_forward, size: 10),
                                   ],
@@ -136,18 +135,19 @@ class _MessagesPageState extends State<MessagesPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MessageDetailsPage(message: message),
+                                    builder: (context) => MessageDetailsPage(message: _futureMessages[index]!),
                                   ),
                                 );
                               },
                             ),
                           );
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    
                 ),
               ),
+            ):Expanded(
+              child: CircularProgressIndicator(),
             ),
         
             // الجزء السفلي الأخضر
