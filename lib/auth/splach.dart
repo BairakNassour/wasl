@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     checkLoginStatus();
     // تأخير لمدة خمس ثوانٍ قبل الانتقال إلى صفحة تسجيل الدخول
-    Timer(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 5), () {
       if (isLoggedIn) {
         Navigator.pushReplacement(
         context,
