@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 void requestPermission() async {
@@ -43,19 +44,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _getFCMTokenAndSendToServer() async {
-    // الحصول على FCM token
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    // احصل على FCM Token
-    fcmToken = await messaging.getToken();
+    try {
+      // احصل على FCM Token
+      fcmToken = await messaging.getToken();
 
-    // الحصول على user_id من SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    userId = prefs.getString('token');
+      if (fcmToken == null) {
+        _showErrorDialog("خطأ", "قيمة التوكين فارغة");
+      }else{
+        _showErrorDialog("قيمة التوكين", fcmToken.toString());
+      }
 
-    // تحقق إذا كانت القيم موجودة
-    if (userId != null && fcmToken != null) {
-      await _sendFcmTokenToServer(fcmToken!, userId!);
+      // الحصول على user_id من SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      userId = prefs.getString('token');
+
+      if (userId != null) {
+        await _sendFcmTokenToServer(fcmToken!, userId!);
+      } else {
+        throw Exception("User ID is null");
+      }
+    } catch (error) {
+      // عرض رسالة الخطأ في نافذة منبثقة
+      _showErrorDialog("خطأ", "حدث خطأ أثناء الحصول على FCM Token: $error");
     }
   }
 
@@ -75,11 +87,31 @@ class _HomePageState extends State<HomePage> {
         print(fcmToken);
         print('FCM Token sent successfully');
       } else {
-        print('Failed to send FCM Token: ${response.statusCode}');
+        throw Exception(
+            "Failed to send FCM Token to server. Status code: ${response.statusCode}");
       }
     } catch (error) {
-      print('Error sending FCM Token: $error');
+      // عرض رسالة الخطأ في نافذة منبثقة
+      _showErrorDialog("خطأ", "حدث خطأ أثناء إرسال FCM Token إلى السيرفر: $error");
     }
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title, style: TextStyle(color: Colors.red)),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("إغلاق"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -121,23 +153,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // Positioned(
-            //   top: 40,
-            //   right: 16,
-            //   child: InkWell(
-            //     onTap: () {
-            //       Navigator.of(context).pushAndRemoveUntil(
-            //         MaterialPageRoute(builder: (context) => LoginPage()),
-            //         (Route<dynamic> route) => false,
-            //       );
-            //     },
-            //     child: Icon(
-            //       Icons.arrow_back,
-            //       color: Colors.white,
-            //       size: 30,
-            //     ),
-            //   ),
-            // ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -186,10 +201,12 @@ class _HomePageState extends State<HomePage> {
                           height: 47,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: (BuildContext context) {
-                                  return MessagesPage();
-                                }));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                return MessagesPage();
+                              }));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: globalcolor,
@@ -218,7 +235,8 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               logout();
                               Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => LoginPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
                                 (Route<dynamic> route) => false,
                               );
                             },
@@ -254,14 +272,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Future<void> logout() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('isLoggedIn');
-  // أعد توجيه المستخدم إلى صفحة تسجيل الدخول
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => LoginPage()),
-  );
-}
 
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
 }
